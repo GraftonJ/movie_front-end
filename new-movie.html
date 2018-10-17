@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>My Movies</title>
-  <script src="./javascripts/app.js" charset="utf-8"></script>
+  <script src="./javascripts/new_movie.js" charset="utf-8"></script>
   <link rel="stylesheet" href="./css/style.css">
   <!--Import Google Icon Font-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -25,22 +25,27 @@
       </div>
     </nav>
     <form id="create-movie">
-    <label for="title">Title</label>
-    <input type="text" name="title" id="title"><br>
-
+    <div class='input-field'>
+      <label for="title">Title</label>
+      <input type="text" name="title" id="title"><br>
+    </div>
+    <div class='input-field'>
     <label for="director">Director</label>
     <input type="text" name="director" id="director"><br>
-
+    </div>
+    <div class='input-field'>
     <label for="year">Year</label>
     <input type="number" name="year" id="year"><br>
-
+  </div>
+  <div class='input-field'>
     <label for="rating">Rating</label>
     <input type="number" name="rating" id="rating"><br>
-
+</div>
+<div class='input-field'>
     <label for="poster_url">Poster URL</label>
     <input type="text" name="poster_url" id="poster_url"><br>
     <br>
-
+<div class='input-field'>
     <input type="submit" value="Submit" id="submit-form">
   </form>
   </div>
