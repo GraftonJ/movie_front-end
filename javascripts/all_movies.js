@@ -1,8 +1,8 @@
 
 
 document.addEventListener('DOMContentLoaded', () => {
-console.log('Connected to all_movies.js')
 getMovies()
+})
 // Use AJAX to get the cryptids and append them to a table in the DOM
 function getMovies() {
   console.log('getMovies Function');
@@ -13,21 +13,39 @@ function getMovies() {
 
     // DOM manipulation, need to create TRs, TDs
     response.data.forEach((movie) => {
-      console.log(movie);
+      console.log('MOVIE IS>>>>', movie.id);
       let tbody = document.querySelector('#list-movies tbody')
       let tr = document.createElement('tr')
       let title = document.createElement('td')
       let director = document.createElement('td')
       let year = document.createElement('td')
       let rating = document.createElement('td')
-      let deleteButton = document.createElement('td')
+      let del_td = document.createElement('td')
+      let deleteButton = document.createElement('button')
       let editButton = document.createElement('td')
       title.innerText = movie.title
       director.innerText = movie.director
       year.innerText = movie.year
       rating.innerText = movie.rating
-      deleteButton.innerHTML =  `<a class="waves-effect waves-light btn" id='delete-button'>Delete</a>`
+      deleteButton.innerText =  'X'
       editButton.innerHTML = `<a class="waves-effect waves-light btn" id='edit-button'>Edit</a>`
+
+      deleteButton.setAttribute('data-id', movie.id)
+
+      deleteButton.addEventListener('click', (ev) => {
+        console.log('THE EVENT TARGET>>>>', event.target);
+        let movieId = ev.target.getAttribute('data-id')
+        console.log('id', movieId)
+
+        // DELETE THIS RECORD!
+        axios.delete(`http://localhost:3000/all_movies/${movieId}`)
+        .then((response) => {
+          deleteButton.parentElement.remove()
+        })
+        .catch((err) => {
+          //console.log(err)
+        })
+      })
 
       // append IMG, to the TD, append the TDs to the TR, the TR to the TBODY
       tr.appendChild(title)
@@ -37,6 +55,8 @@ function getMovies() {
       tr.appendChild(deleteButton)
       tr.appendChild(editButton)
       tbody.appendChild(tr)
+
+
     })
 
   })
@@ -45,5 +65,3 @@ function getMovies() {
     console.log(error);
   })
 }
-
-})
