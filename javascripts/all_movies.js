@@ -27,10 +27,11 @@ function getMovies() {
       director.innerText = movie.director
       year.innerText = movie.year
       rating.innerText = movie.rating
-      deleteButton.innerText =  'X'
+      deleteButton.innerText =  'Delete'
       editButton.innerHTML = `<a class="waves-effect waves-light btn" id='edit-button'>Edit</a>`
 
       deleteButton.setAttribute('data-id', movie.id)
+      deleteButton.setAttribute('class', 'waves-effect waves-light btn')
 
       deleteButton.addEventListener('click', (ev) => {
         console.log('THE EVENT TARGET>>>>', event.target);
