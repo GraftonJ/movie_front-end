@@ -2,6 +2,8 @@ console.log('Connected to new_movie.js');
 document.addEventListener('DOMContentLoaded', () => {
   handleFormSubmit()
 })
+
+
 function handleFormSubmit() {
   let form = document.getElementById('create-movie')
   form.addEventListener('submit', (ev) => {
@@ -24,8 +26,10 @@ function handleFormSubmit() {
     // axios.post that data to the correct backend route
     axios.post('http://localhost:3000/all_movies', postData)
     .then((response) => {
-      console.log(response)
-      getReports()  //call this once again
+      document.getElementById("submit-form").disabled = true
+      let success = document.createElement('p')
+          success.innerHTML = `Successfully added ${response.data[0].title}.<a href='movies.html'>See all movies.</a>`
+          form.appendChild(success)
     })
     .catch((error) => {
       console.log(error)
