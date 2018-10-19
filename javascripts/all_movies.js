@@ -18,6 +18,8 @@ function getMovies() {
       let director = document.createElement('td')
       let year = document.createElement('td')
       let rating = document.createElement('td')
+      let show_td = document.createElement('td')
+      let showButton = document.createElement('button')
       let del_td = document.createElement('td')
       let deleteButton = document.createElement('button')
       let edit_td= document.createElement('td')
@@ -26,8 +28,12 @@ function getMovies() {
       director.innerText = movie.director
       year.innerText = movie.year
       rating.innerText = movie.rating
+      showButton.innerText =  'Show'
       deleteButton.innerText =  'Delete'
       editButton.innerText = `Edit`
+
+      showButton.setAttribute('data-id', movie.id)
+      showButton.setAttribute('class', 'waves-effect waves-light btn')
 
       deleteButton.setAttribute('data-id', movie.id)
       deleteButton.setAttribute('class', 'waves-effect waves-light btn')
@@ -48,6 +54,37 @@ function getMovies() {
         })
       })
 
+      //SHOW MOVIE LISTED IN THE table
+      showButton.addEventListener('click', (ev) => {
+        //Get the ID of the movie for which the edit button was clicked
+        let movieId = ev.target.getAttribute('data-id')
+        //Hide the movie table
+        const pageContainer = document.getElementsByClassName('page-container')[0]
+        const movieTable = document.getElementsByClassName('movie-table-container')[0]
+        movieTable.style.visibility = 'hidden'
+        //Add movie title clicked
+        let title = document.createElement('h1')
+        title.innerText = movie.title
+        pageContainer.insertBefore(title, movieTable)
+        //add movie image
+        let posterImage = document.createElement('img')
+        posterImage.setAttribute('src', movie.poster_link)
+        posterImage.setAttribute('class', 'center')
+        pageContainer.insertBefore(posterImage, movieTable)
+        //add data about movies
+        let content = document.createElement('div')
+        content.innerHTML = `
+          <h3>Title: ${movie.title}</h3>
+          <h3>Director: ${movie.director}</h3>
+          <h3>Year: ${movie.year}</h3>
+          <h3>Rating: ${movie.rating}</h3>
+        `
+        pageContainer.insertBefore(content, movieTable)
+
+
+
+
+      })
       //EDIT A MOVIE LISTED IN THE TABLE
       editButton.addEventListener('click', (ev) => {
         //Get the ID of the movie for which the edit button was clicked
@@ -136,6 +173,8 @@ function getMovies() {
       tr.appendChild(director)
       tr.appendChild(year)
       tr.appendChild(rating)
+      tr.appendChild(show_td)
+      show_td.appendChild(showButton)
       tr.appendChild(del_td)
       del_td.appendChild(deleteButton)
       tr.appendChild(edit_td)
@@ -151,6 +190,8 @@ function getMovies() {
     console.log(error);
   })
 }
+
+
 const removeMessage = () => {
     let message = document.getElementById('submit-message')
     if (message) {
