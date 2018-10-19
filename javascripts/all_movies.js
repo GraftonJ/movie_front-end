@@ -9,10 +9,10 @@ function getMovies() {
   axios.get('http://localhost:3000/all_movies')
   .then((response) => {
     // handle success
-    console.log(response);
 
     // DOM manipulation, need to create TRs, TDs
     response.data.forEach((movie) => {
+      const poster = movie.poster_link
       //console.log('MOVIE IS>>>>', movie.id);
       let tbody = document.querySelector('#list-movies tbody')
       let tr = document.createElement('tr')
@@ -38,9 +38,7 @@ function getMovies() {
       editButton.setAttribute('class', 'waves-effect waves-light btn')
 
       deleteButton.addEventListener('click', (ev) => {
-        console.log('THE EVENT TARGET>>>>', event.target);
         let movieId = ev.target.getAttribute('data-id')
-        console.log('id', movieId)
 
         // DELETE THIS RECORD!
         axios.delete(`http://localhost:3000/all_movies/${movieId}`)
@@ -54,43 +52,56 @@ function getMovies() {
 
       //EDIT A MOVIE LISTED IN THE TABLE
       editButton.addEventListener('click', (ev) => {
-        console.log('MOVIE IN EDIT', movie.title);
         //Get the ID of the movie for which the edit button was clicked
         let movieId = ev.target.getAttribute('data-id')
+
         //Hide the movie table
         const pageContainer = document.getElementsByClassName('page-container')[0]
         const movieTable = document.getElementsByClassName('movie-table-container')[0]
         movieTable.style.visibility = 'hidden'
+
+        //Place Poster Image Above the form
+        console.log('POSTER>>>', movie.poster_link);
+        let posterImage = document.createElement('img')
+        posterImage.setAttribute('src', movie.poster_link)
+        posterImage.setAttribute('class', 'center-align')
+        pageContainer.insertBefore(posterImage, movieTable)
         //Create a form with the fields prefield from
         let editForm = document.createElement('form')
         editForm.innerHTML = `<form id="create-movie">
-          <div class='input-field'>
             <label for="title">Title</label>
             <input type="text" name="title" id="title"><br>
-          </div>
-          <div class='input-field'>
             <label for="director">Director</label>
             <input type="text" name="director" id="director"><br>
-          </div>
-          <div class='input-field'>
             <label for="year">Year</label>
             <input type="number" name="year" id="year"><br>
-          </div>
-          <div class='input-field'>
             <label for="rating">Rating</label>
             <input type="number" name="rating" id="rating"><br>
-          </div>
-          <div class='input-field'>
             <label for="poster_url">Poster URL</label>
-            <input type="text" name="poster_url" id="poster_url"><br>
+            <input type="text" name="poster_url" id="poster_link"><br>
             <br>
-          <div class='input-field'>
           <input class="waves-effect waves-light btn" type="submit" value="Submit" id="submit-form">
         </form>`
-        pageContainer.appendChild(editForm)
+
+        //Append edit form to the page
+        console.log('MOVIETABLE', movieTable);
+        pageContainer.insertBefore(editForm, movieTable)
+
+        //Pre-fill the from Values with data from the clicked row
+        let title = document.getElementById('title')
+        title.setAttribute('value', movie.title)
+
+        let year = document.getElementById('year')
+        year.setAttribute('value', movie.year)
+
         let director = document.getElementById('director')
-        console.log('DIRECTOR IS>>>', director);
-        director.setAttribute('value', `${movie.director}`)
+        director.setAttribute('value', movie.director)
+
+        let rating = document.getElementById('rating')
+        rating.setAttribute('value', movie.rating)
+
+        let poster_link = document.getElementById('poster_link')
+        poster_link.setAttribute('value', poster)
 
 
 
