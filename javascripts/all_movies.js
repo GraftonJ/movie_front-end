@@ -10,6 +10,7 @@ function getMovies() {
   .then((response) => {
     // DOM manipulation, need to create TRs, TDs
     response.data.forEach((movie) => {
+
       const poster = movie.poster_link
       //console.log('MOVIE IS>>>>', movie.id);
       let tbody = document.querySelector('#list-movies tbody')
@@ -70,9 +71,9 @@ function getMovies() {
             <div class="card">
               <div class="card-image">
                 <img src=${movie.poster_link}>
-                <span class="card-title">${movie.title}</span>
               </div>
               <div class="card-content">
+                <h5>${movie.title}</h5>
                 <p>Director: ${movie.director}</p>
                 <p>Release Year: ${movie.year}</p>
                 <p>Rating: ${movie.rating}</p>
@@ -85,9 +86,6 @@ function getMovies() {
         </div>
         `
         pageContainer.insertBefore(content, movieTable)
-
-
-
 
       })
       //EDIT A MOVIE LISTED IN THE TABLE
