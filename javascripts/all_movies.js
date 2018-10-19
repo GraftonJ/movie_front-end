@@ -62,22 +62,27 @@ function getMovies() {
         const pageContainer = document.getElementsByClassName('page-container')[0]
         const movieTable = document.getElementsByClassName('movie-table-container')[0]
         movieTable.style.visibility = 'hidden'
-        //Add movie title clicked
-        let title = document.createElement('h1')
-        title.innerText = movie.title
-        pageContainer.insertBefore(title, movieTable)
-        //add movie image
-        let posterImage = document.createElement('img')
-        posterImage.setAttribute('src', movie.poster_link)
-        posterImage.setAttribute('class', 'center')
-        pageContainer.insertBefore(posterImage, movieTable)
         //add data about movies
         let content = document.createElement('div')
         content.innerHTML = `
-          <h3>Title: ${movie.title}</h3>
-          <h3>Director: ${movie.director}</h3>
-          <h3>Year: ${movie.year}</h3>
-          <h3>Rating: ${movie.rating}</h3>
+        <div class="row align-center">
+          <div class="col s12 m7">
+            <div class="card">
+              <div class="card-image">
+                <img src=${movie.poster_link}>
+                <span class="card-title">${movie.title}</span>
+              </div>
+              <div class="card-content">
+                <p>Director: ${movie.director}</p>
+                <p>Release Year: ${movie.year}</p>
+                <p>Rating: ${movie.rating}</p>
+              </div>
+              <div class="card-action">
+                <a href="movies.html">Back to All Movies</a>
+              </div>
+            </div>
+          </div>
+        </div>
         `
         pageContainer.insertBefore(content, movieTable)
 
