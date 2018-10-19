@@ -1,15 +1,13 @@
 
 
 document.addEventListener('DOMContentLoaded', () => {
-getMovies()
+  getMovies()
 })
 // Use AJAX to get the cryptids and append them to a table in the DOM
 function getMovies() {
   console.log('getMovies Function');
   axios.get('http://localhost:3000/all_movies')
   .then((response) => {
-    // handle success
-
     // DOM manipulation, need to create TRs, TDs
     response.data.forEach((movie) => {
       const poster = movie.poster_link
@@ -99,7 +97,7 @@ function getMovies() {
         poster_link.setAttribute('value', poster)
         //On submit, use the patch route to update the movie table and make it visible again. Run the get request to update the table.
 
-        //  function formSubmit(){
+          //Handle Form Submit
           let form = document.getElementById('edit-movie')
           form.addEventListener('submit', (ev) => {
             ev.preventDefault()
@@ -120,19 +118,17 @@ function getMovies() {
 
             // axios.post that data to the correct backend route
             axios.patch(`http://localhost:3000/all_movies/${movieId}`, postData)
-            // .then((response) => {
-            //   document.getElementById("submit-form").disabled = true
-            //   let success = document.createElement('p')
-            //       success.innerHTML = `Successfully added ${response.data[0].title}.<a href='movies.html'>See all movies.</a>`
-            //       form.appendChild(success)
-            // })
-            // .catch((error) => {
-            //   console.log(error)
-            // })
+            .then((response) => {
+              removeMessage()
+              let success = document.createElement('p')
+                  success.setAttribute('id', 'submit-message')
+                  success.innerHTML = `Successfully edited ${response.data[0].title}.<a href='movies.html'>See all movies.</a>`
+                  form.appendChild(success)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
           })
-
-      //  }
-
       })
 
       // append IMG, to the TD, append the TDs to the TR, the TR to the TBODY
@@ -155,3 +151,10 @@ function getMovies() {
     console.log(error);
   })
 }
+const removeMessage = () => {
+    let message = document.getElementById('submit-message')
+    if (message) {
+      form.removeChild(message)
+      console.log('Remove Message Function');
+    }
+  }
